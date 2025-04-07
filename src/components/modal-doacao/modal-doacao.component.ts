@@ -1,12 +1,11 @@
 import { Component, Input, Output, EventEmitter, ViewChild, ElementRef, AfterViewInit, OnDestroy, Renderer2 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { LogoDoarComponent } from '../logo-doar/logo-doar.component'; // ajuste o caminho conforme necessário
 
 @Component({
   selector: 'app-modal-doacao',
   standalone: true,
-  imports: [CommonModule, FormsModule, LogoDoarComponent],
+  imports: [CommonModule, FormsModule],
   templateUrl: './modal-doacao.component.html',
   styleUrls: ['./modal-doacao.component.css']
 })

@@ -2,12 +2,11 @@ import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ModalDoacaoComponent } from '../modal-doacao/modal-doacao.component';
 import { Ong } from '../../models/ong.interface';
-import { LogoDoarComponent } from "../logo-doar/logo-doar.component";
 
 @Component({
   selector: 'app-card-ong',
   standalone: true,
-  imports: [CommonModule, ModalDoacaoComponent, LogoDoarComponent],
+  imports: [CommonModule, ModalDoacaoComponent,],
   templateUrl: './card-ongs.component.html',
   styleUrls: ['./card-ongs.component.css']
 })
