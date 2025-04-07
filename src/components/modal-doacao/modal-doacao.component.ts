@@ -1,11 +1,22 @@
-import { Component, Input, Output, EventEmitter, ViewChild, ElementRef, AfterViewInit, OnDestroy, Renderer2 } from '@angular/core';
+import {
+  Component,
+  Input,
+  Output,
+  EventEmitter,
+  ViewChild,
+  ElementRef,
+  AfterViewInit,
+  OnDestroy,
+  Renderer2
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { LogoDoarComponent } from "../logo-doar/logo-doar.component";
 
 @Component({
   selector: 'app-modal-doacao',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, LogoDoarComponent],
   templateUrl: './modal-doacao.component.html',
   styleUrls: ['./modal-doacao.component.css']
 })
@@ -20,6 +31,7 @@ export class ModalDoacaoComponent implements AfterViewInit, OnDestroy {
 
   @ViewChild('modalContent', { static: false }) modalContent!: ElementRef;
   private originalParent!: HTMLElement;
+  private timeoutId: any;
 
   constructor(private elementRef: ElementRef, private renderer: Renderer2) {}
 
@@ -30,18 +42,27 @@ export class ModalDoacaoComponent implements AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    // Reinsere o modal em seu pai original se necessário e limpa quaisquer timers
-    if (this.originalParent) {
-      this.renderer.appendChild(this.originalParent, this.elementRef.nativeElement);
+    // Se houver timeout pendente, limpa o timer
+    if (this.timeoutId) {
+      clearTimeout(this.timeoutId);
     }
   }
 
+  // Método chamado na submissão do formulário
   handleSubmit(event: Event): void {
-    event.preventDefault();
+    event.preventDefault(); // Previne o comportamento padrão do formulário
     this.enviado = true;
-    // Exibe a mensagem de sucesso por 2 segundos e depois recarrega a página
-    setTimeout(() => {
-      window.location.reload();
+    // Após 2 segundos, fecha o modal emitindo o evento
+    this.timeoutId = setTimeout(() => {
+      this.onClose();
     }, 2000);
   }
+
+  // Emite o evento de fechamento para o componente pai
+  onClose(): void {
+    this.close.emit();
+  }
 }
+
+
+

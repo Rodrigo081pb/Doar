@@ -1,7 +1,30 @@
 <div class="fixed inset-0 bg-black/75 flex justify-center items-center z-50">
+  <!-- Referência para mover o modal para o document.body -->
   <div #modalContent class="bg-[#5749EB] p-6 rounded-xl w-[90%] max-w-md shadow-xl">
+
+    <div class="flex justify-end">
+      <!-- Botão que chama onClose() para fechar o modal -->
+      <button
+        (click)="onClose()"
+        class="text-white text-2xl font-bold hover:text-[#B9A5D4] transition"
+        aria-label="Fechar modal">
+        X
+      </button>
+    </div>
+
+    <!-- Se não foi enviado, exibe o formulário; caso contrário, exibe mensagem de sucesso -->
     <ng-container *ngIf="!enviado; else enviadoTemplate">
       <form #form="ngForm" (ngSubmit)="handleSubmit($event)" class="space-y-4">
+
+        <!-- Você pode adicionar um título ou logo aqui -->
+        <h2 class="text-xl flex flex-col items-center text-center font-light text-[#E0D6EE]">
+          <div class="my-6">
+            <!-- Caso possua um componente de logo -->
+            <app-logo-doar></app-logo-doar>
+          </div>
+          Solicitar doação para <span class="font-bold">{{ ongNome }}</span>
+        </h2>
+
         <input
           type="text"
           placeholder="Seu nome"
@@ -33,25 +56,27 @@
           [(ngModel)]="mensagem"
           name="mensagem"
           rows="3"
-          class="placeholder-[#B9A5D4] w-full border border-gray-300 rounded-2xl p-2 text-white outline-none"
-        ></textarea>
+          class="placeholder-[#B9A5D4] w-full border border-gray-300 rounded-2xl p-2 text-white outline-none">
+        </textarea>
+
         <button
           type="submit"
           [disabled]="form.invalid"
-          class="w-full text-[#5749EB] cursor-pointer bg-[#E0D6EE] py-2 rounded-2xl hover:bg-[#332A9A] transition"
-        >
+          class="w-full text-[#5749EB] cursor-pointer bg-[#E0D6EE] py-2 rounded-2xl hover:bg-[#332A9A] transition">
           Enviar
         </button>
       </form>
     </ng-container>
 
-    <div class="text-center text-[#E0D6EE] font-semibold">
+    <!-- Template para mensagem de sucesso -->
     <ng-template #enviadoTemplate>
-      <!-- Mensagem de sucesso -->
-      <div class="text-[#52eb34] text-center">Sua mensagem foi enviada à {{ ongNome }}!</div>
+      <div class="flex flex-col items-center justify-center text-center">
+        <app-logo-doar class="mb-4"></app-logo-doar>
+        <div class="text-[#52eb34] font-semibold">
+          Sua solicitação foi enviada à {{ ongNome }}!
+        </div>
+      </div>
     </ng-template>
-
 
   </div>
 </div>
-
