@@ -1,0 +1,55 @@
+<main>
+  <!-- NAVBAR -->
+  <div class="w-full h-16 fixed top-0 bg-[#5749EB] flex items-center z-50">
+    <div class="flex w-full m-4 items-center justify-between">
+      <!-- Botão hamburguer -->
+      <button
+        #button
+        (click)="toggleMenu()"
+        class="flex flex-col justify-center items-center sm:w-[140px] h-10 focus:outline-none"
+        aria-label="Toggle Menu"
+      >
+        <span
+          [ngClass]="{'rotate-45 translate-y-1.5': isOpen}"
+          class="block w-6 h-0.5 bg-[#E0D6EE] transition-all duration-300"
+        ></span>
+        <span
+          [ngClass]="{'opacity-0': isOpen}"
+          class="block w-6 h-0.5 bg-[#E0D6EE] my-1 transition-all duration-300"
+        ></span>
+        <span
+          [ngClass]="{'-rotate-45 -translate-y-1.5': isOpen}"
+          class="block w-6 h-0.5 bg-[#E0D6EE] transition-all duration-300"
+        ></span>
+      </button>
+
+      <!-- Componente do Logo -->
+      <app-logo-doar></app-logo-doar>
+
+      <!-- Botão Buscar ONGs -->
+      <app-button-buscar-ongs></app-button-buscar-ongs>
+    </div>
+  </div>
+
+  <!-- DROPDOWN -->
+  <div
+    *ngIf="isOpen"
+    #dropdown
+    class="bg-[#5749EB] fixed top-0 mt-16 text-[#E0D6EE] gap-2 w-[250px] flex flex-col shadow-md p-4 left-0 z-40"
+  >
+    <a
+      routerLink="/home"
+      (click)="isOpen = false"
+      class="text-sm p-2 py-4 hover:bg-[#4B3ED7] rounded-2xl"
+    >
+      Início
+    </a>
+    <a
+      routerLink="/search"
+      (click)="isOpen = false"
+      class="text-sm p-2 py-4 hover:bg-[#4B3ED7] rounded-2xl"
+    >
+      Buscar ONGs
+    </a>
+  </div>
+</main>

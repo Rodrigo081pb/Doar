@@ -1,0 +1,57 @@
+<div class="fixed inset-0 bg-black/75 flex justify-center items-center z-50">
+  <div #modalContent class="bg-[#5749EB] p-6 rounded-xl w-[90%] max-w-md shadow-xl">
+    <ng-container *ngIf="!enviado; else enviadoTemplate">
+      <form #form="ngForm" (ngSubmit)="handleSubmit($event)" class="space-y-4">
+        <input
+          type="text"
+          placeholder="Seu nome"
+          [(ngModel)]="nome"
+          name="nome"
+          required
+          #nomeInput="ngModel"
+          class="placeholder-[#B9A5D4] w-full border border-gray-300 rounded-2xl p-2 text-white outline-none"
+        />
+        <div *ngIf="nomeInput.invalid && nomeInput.touched" class="text-red-500 text-sm">
+          O nome é obrigatório.
+        </div>
+
+        <input
+          type="email"
+          placeholder="Seu email"
+          [(ngModel)]="email"
+          name="email"
+          required
+          #emailInput="ngModel"
+          class="placeholder-[#B9A5D4] w-full border border-gray-300 rounded-2xl p-2 text-white outline-none"
+        />
+        <div *ngIf="emailInput.invalid && emailInput.touched" class="text-red-500 text-sm">
+          Insira um e-mail válido.
+        </div>
+
+        <textarea
+          placeholder="Mensagem (opcional)"
+          [(ngModel)]="mensagem"
+          name="mensagem"
+          rows="3"
+          class="placeholder-[#B9A5D4] w-full border border-gray-300 rounded-2xl p-2 text-white outline-none"
+        ></textarea>
+        <button
+          type="submit"
+          [disabled]="form.invalid"
+          class="w-full text-[#5749EB] cursor-pointer bg-[#E0D6EE] py-2 rounded-2xl hover:bg-[#332A9A] transition"
+        >
+          Enviar
+        </button>
+      </form>
+    </ng-container>
+
+    <div class="text-center text-[#E0D6EE] font-semibold">
+    <ng-template #enviadoTemplate>
+      <!-- Mensagem de sucesso -->
+      <div class="text-[#52eb34] text-center">Sua mensagem foi enviada à {{ ongNome }}!</div>
+    </ng-template>
+
+
+  </div>
+</div>
+

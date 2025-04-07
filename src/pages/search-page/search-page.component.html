@@ -1,0 +1,83 @@
+<div class="min-h-screen flex flex-col">
+
+  <div class="max-w-[1400px] mx-auto p-6 flex flex-col items-center flex-grow">
+    <!-- Ícone SVG de logo (igual ao do React) -->
+    <svg class="mt-24" width="50" height="50" viewBox="0 0 55 53" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M31.8122 1.46933C33.6976 8.34764 46.4855 10.6019 54.9873 15.0402C55.1747 19.1516 53.301 23.5199 48.3474 26.9888C48.687 35.1881 43.4524 39.8601 34.9623 42.453C34.9272 46.3308 33.4751 49.9282 29.4232 53L22.514 48.7485L28.0648 44.754C27.854 41.7639 26.9406 38.6454 21.624 36.8934L18.5441 26.0077C12.1619 24.793 12.4664 22.3519 11.9511 20.0626L4.34745 22.4453C-1.40874 18.8245 -1.73055 13.6386 5.08053 12.7043L5.8991 4.20361L11.8925 5.26882L13.0987 0.922714L18.9072 0L21.3312 4.36012L31.8122 1.46933Z" fill="#5749EB" />
+    </svg>
+
+    <h1 class="text-2xl text-[#5749EB] font-bold mb-6">Busque ONGs por Estado</h1>
+
+    <!-- Seletor de Estado e Botão de Busca -->
+    <div class="flex sm:flex-row gap-2 mb-16">
+      <select
+        [(ngModel)]="estadoSelecionado"
+        class="bg-[#5749EB] rounded-2xl text-[#E0D6EE] outline-none p-2 border">
+        <option value="">Selecione um estado</option>
+        <option value="Acre">Acre</option>
+        <option value="Alagoas">Alagoas</option>
+        <option value="Amapá">Amapá</option>
+        <option value="Amazonas">Amazonas</option>
+        <option value="Bahia">Bahia</option>
+        <option value="Ceará">Ceará</option>
+        <option value="Distrito Federal">Distrito Federal</option>
+        <option value="Espírito Santo">Espírito Santo</option>
+        <option value="Goiás">Goiás</option>
+        <option value="Maranhão">Maranhão</option>
+        <option value="Mato Grosso">Mato Grosso</option>
+        <option value="Mato Grosso do Sul">Mato Grosso do Sul</option>
+        <option value="Minas Gerais">Minas Gerais</option>
+        <option value="Pará">Pará</option>
+        <option value="Paraíba">Paraíba</option>
+        <option value="Paraná">Paraná</option>
+        <option value="Pernambuco">Pernambuco</option>
+        <option value="Piauí">Piauí</option>
+        <option value="Rio de Janeiro">Rio de Janeiro</option>
+        <option value="Rio Grande do Norte">Rio Grande do Norte</option>
+        <option value="Rio Grande do Sul">Rio Grande do Sul</option>
+        <option value="Rondônia">Rondônia</option>
+        <option value="Roraima">Roraima</option>
+        <option value="Santa Catarina">Santa Catarina</option>
+        <option value="São Paulo">São Paulo</option>
+        <option value="Sergipe">Sergipe</option>
+        <option value="Tocantins">Tocantins</option>
+      </select>
+
+      <button class="bg-[#5749EB] rounded-2xl text-white px-4 py-2 flex items-center justify-center disabled:opacity-50"
+              (click)="fetchOngs()"
+              [disabled]="isLoading">
+        <ng-container *ngIf="isLoading; else notLoading">
+          <svg class="animate-spin h-6 w-6 text-[#E0D6EE]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
+          </svg>
+        </ng-container>
+        <ng-template #notLoading>
+          <svg width="27" height="27" viewBox="0 0 40 37" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M19.1063 18.5051H6.80273M6.45398 20.1088L4.42126 26.1467C3.30795 29.4535 2.7513 31.1069 3.15078 32.125C3.49768 33.0094 4.24276 33.6797 5.16216 33.935C6.22086 34.2287 7.81992 33.5131 11.018 32.0822L31.5209 22.9079C34.6425 21.511 36.2033 20.8127 36.6856 19.8425C37.1048 18.9996 37.1048 18.0104 36.6856 17.1675C36.2033 16.1975 34.6425 15.4991 31.5209 14.1022L10.9827 4.91221C7.79418 3.4855 6.19997 2.77214 5.14231 3.06478C4.22379 3.31891 3.47878 3.9875 3.13067 4.87008C2.72981 5.88637 3.28052 7.53621 4.38195 10.8359L6.45793 17.0553C6.64709 17.622 6.74169 17.9054 6.77902 18.1951C6.81215 18.4524 6.81181 18.7127 6.77802 18.9698C6.73993 19.2595 6.64462 19.5425 6.45398 20.1088Z" stroke="#E0D6EE" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"></path>
+          </svg>
+        </ng-template>
+      </button>
+    </div>
+
+    <!-- Exibição dos Cards -->
+    <div class="grid sm:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
+      <ng-container *ngIf="foiBuscado && ongs.length === 0 && !isLoading; else showCards">
+        <div class="col-span-full">
+          <p class="text-center text-[#fc0808] italic">
+            Nenhuma ONG encontrada para o estado selecionado.
+          </p>
+        </div>
+      </ng-container>
+      <ng-template #showCards>
+        <div *ngFor="let ong of ongs">
+          <app-card-ong [ong]="ong"></app-card-ong>
+        </div>
+      </ng-template>
+    </div>
+
+  </div>
+
+  <!-- Footer -->
+  <app-footer></app-footer>
+</div>

@@ -1,12 +1,15 @@
+// app.component.ts
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { RouterModule } from '@angular/router'; // Importa o RouterModule
+import { NavbarComponent } from '../components/navbar/navbar.component';
 
 @Component({
+  standalone: true,
   selector: 'app-root',
-  imports: [RouterOutlet],
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  imports: [NavbarComponent, RouterModule], // Adicione o RouterModule aqui
+  template: `
+    <app-navbar></app-navbar>
+    <router-outlet></router-outlet>
+  `
 })
-export class AppComponent {
-  title = 'DOAR';
-}
+export class AppComponent {}
